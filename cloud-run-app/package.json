@@ -1,0 +1,16 @@
+{
+  "name": "sec-tests",
+  "version": "1.0.0",
+  "description": "sec tests",
+  "main": "cloud-run-app.js",
+  "scripts": {
+    "start": "node cloud-run-app.js"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "firebase-admin": "^8.13.0"
+  }
+}

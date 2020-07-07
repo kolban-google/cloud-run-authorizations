@@ -1,0 +1,81 @@
+<!--
+    This is the web page that is presented to the user to perform a sign-in to
+    Identity Platform and then click the button to send a request to Cloud Run.
+-->
+<html>
+<head>
+    <script>
+        const CLOUD_RUN_URL="https://cloud-run-app-nb4moc7dnq-uc.a.run.app";
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase.js"></script>
+    <script>
+        var config = {
+            apiKey: "AIzaSyCnRGpinokfqo4ug6gBE6tjQncHyv2ZttY",
+            authDomain: "ip-test-kolban.firebaseapp.com",
+        };
+        firebase.initializeApp(config);
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/ui/4.5.1/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.5.1/firebase-ui-auth.css" />
+
+    <script>
+        var ui = new firebaseui.auth.AuthUI(firebase.auth());
+        ui.start('#firebaseui-auth-container', {
+            signInOptions: [
+                firebase.auth.EmailAuthProvider.PROVIDER_ID
+            ],
+            callbacks: {
+                signInSuccessWithAuthResult: function(authResult) {
+                    authResult.user.getIdToken().then((token) => {
+                        globalToken = token;
+                        $("#call").prop("disabled", false);
+                    });
+                    return false;
+                }
+            }
+        });
+    </script>
+
+</head>
+
+<body>
+    <script>
+        var globalToken = "unknown";
+        $(document).ready(function () {
+            console.log("jQuery ready!");
+            $("#call").click(() => {
+                console.log(`Call clicked!  globalToken = ${globalToken}`);
+                $.ajax({
+                    method: "GET",
+                    url: `${CLOUD_RUN_URL}/operation`,
+                    headers: {
+                        "Authorization": `Bearer ${globalToken}`
+                    }
+                }).done((data) => {
+                    //
+                    const result = JSON.parse(data);
+                    console.log(`Cloud Run called!: ${JSON.stringify(data)}`);
+                    $("#last-response").html(
+`
+<p>Last call to Cloud Run returned:</p>
+<ul>
+    <li>message: ${result.message}</li>
+    <li>email: ${result.email}</li>
+    <li>forum-role: ${result["forum-role"]}</li>
+<ul>
+`)
+                });
+            });
+        });
+
+    </script>
+    <h1>Test Cloud Run authorization enforcement</h1>
+    <button disabled id="call">Call Cloud Run</button>
+    <div id="firebaseui-auth-container"></div>
+    <div id="last-response"></div>
+</body>
+
+</html>
