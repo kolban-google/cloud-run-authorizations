@@ -5,19 +5,23 @@
 <html>
 <head>
     <script>
-        const CLOUD_RUN_URL="https://cloud-run-app-nb4moc7dnq-uc.a.run.app";
+        const CLOUD_RUN_URL="https://cloud-run-app-zpnnzwbqra-uc.a.run.app";
     </script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase.js"></script>
-    <script>
-        var config = {
-            apiKey: "AIzaSyCnRGpinokfqo4ug6gBE6tjQncHyv2ZttY",
-            authDomain: "ip-test-kolban.firebaseapp.com",
-        };
-        firebase.initializeApp(config);
-    </script>
+
+<!-- START PASTE -->
+	<script src="https://www.gstatic.com/firebasejs/7.15.5/firebase.js"></script>
+	<script>
+	var config = {
+		apiKey: "AIzaSyDg5Q31QRp-rgy2me5KDjgHR0Xjnuk380Y",
+		authDomain: "ip-test2-kolban.firebaseapp.com",
+	};
+	firebase.initializeApp(config);
+	</script>		
+<!-- END PASTE -->
+
     <script src="https://www.gstatic.com/firebasejs/ui/4.5.1/firebase-ui-auth.js"></script>
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.5.1/firebase-ui-auth.css" />
 
@@ -60,7 +64,7 @@
                     console.log(`Cloud Run called!: ${JSON.stringify(data)}`);
                     $("#last-response").html(
 `
-<p>Last call to Cloud Run returned:</p>
+<p>Last call to Cloud Run at ${new Date().toString()} returned:</p>
 <ul>
     <li>message: ${result.message}</li>
     <li>email: ${result.email}</li>
